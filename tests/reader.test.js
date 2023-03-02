@@ -111,7 +111,7 @@ describe("/readers", () => {
     });
 
     describe("PATCH /readers/:id", () => {
-      xit("updates readers email by id", async () => {
+      it("updates readers email by id", async () => {
         const reader = readers[0];
         const response = await request(app)
           .patch(`/readers/${reader.id}`)
@@ -124,7 +124,7 @@ describe("/readers", () => {
         expect(updatedReaderRecord.email).to.equal("miss_e_bennet@gmail.com");
       });
 
-      xit("returns a 404 if the reader does not exist", async () => {
+      it("returns a 404 if the reader does not exist", async () => {
         const response = await request(app)
           .patch("/readers/12345")
           .send({ email: "some_new_email@gmail.com" });
