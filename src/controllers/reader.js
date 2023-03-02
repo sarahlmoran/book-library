@@ -48,4 +48,20 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { create, readers, readersById, update };
+const destroy = async (req, res) => {
+  try {
+    const readerId = req.params.id;
+    const validId = await Reader.findByPk(readerId);
+    const deletedRows = await Reader.destroy({ where: { id: readerId } });
+
+    if (!validId) {
+      res.status(404).json({ error: "The reader could not be found." });
+    }
+
+    res.status(200).json(deletedRows);
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+};
+
+module.exports = { create, readers, readersById, update, destroy };
