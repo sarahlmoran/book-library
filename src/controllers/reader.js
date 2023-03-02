@@ -1,6 +1,8 @@
+const { Reader } = require("../models");
 
-const createReader = async (req,res) => {
-    res.sendStatus(201)
-}
+const create = async (req, res) => {
+  const newReader = await Reader.create(req.body);
+  res.status(201).json(newReader);
+};
 
-module.exports = {createReader};
+module.exports = { create };
