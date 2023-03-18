@@ -22,7 +22,7 @@ describe("/readers", () => {
           raw: true,
         });
 
-        expect(response.status).to.equal(200);
+        expect(response.status).to.equal(201);
         expect(response.body.name).to.equal("Elizabeth Bennet");
         expect(newReaderRecord.name).to.equal("Elizabeth Bennet");
         expect(newReaderRecord.email).to.equal("future_ms_darcy@gmail.com");

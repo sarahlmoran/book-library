@@ -1,22 +1,31 @@
 const { Reader } = require("../models");
+const { getAllItems, createItem } = require("./helper");
 
-const create = async (req, res) => {
+//refactoring of create reader
+
+const createReader = (req,res) => createItem(res, 'reader', req.body);
+
+/*const create = async (req, res) => {
   try {
     const newReader = await Reader.create(req.body);
     res.status(200).json(newReader);
   } catch (e) {
     res.status(500).json(e.message);
   }
-};
+};*/
 
-const readers = async (req, res) => {
+//refactoring of get all readers
+
+const getReaders = (req,res) => getAllItems(res, 'reader');
+
+/*const readers = async (req, res) => {
   try {
     const allReaders = await Reader.findAll();
     res.status(200).json(allReaders);
   } catch (e) {
     res.status(500).json(e.message);
   }
-};
+};*/
 
 const readersById = async (req, res) => {
   try {
@@ -64,4 +73,4 @@ const destroy = async (req, res) => {
   }
 };
 
-module.exports = { create, readers, readersById, update, destroy };
+module.exports = { /*create, readers,*/ readersById, update, destroy, getReaders, createReader };

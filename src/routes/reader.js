@@ -4,9 +4,9 @@ const readerController = require("../controllers/reader");
 
 const router = express.Router();
 
-router.post("/", readerController.create);
+router.post("/", readerController.createReader);
 
-router.get("/", readerController.readers);
+router.get("/", readerController.getReaders);
 
 router.get("/:id", readerController.readersById);
 
