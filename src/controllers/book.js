@@ -1,67 +1,25 @@
 const { Book } = require("../models");
+const { createItem, getAllItems, getItemById, updateItem, deleteItem } = require("./helper");
 
-const create = async (req, res) => {
-  try {
-    const newBook = await Book.create(req.body);
-    res.status(200).json(newBook);
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-};
+//refactor of create book
 
-const books = async (req, res) => {
-  try {
-    const allBooks = await Book.findAll();
-    res.status(200).json(allBooks);
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-};
+const createBook = (req,res) => createItem(res, "book", req.body);
 
-const bookById = async (req, res) => {
-  try {
-    const bookId = req.params.id;
-    const book = await Book.findByPk(bookId);
+//refactor of get books
 
-    if (!book) {
-      res.status(404).json({ error: "The book could not be found" });
-    }
-    res.status(200).json(book);
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-};
+const getBooks = (req,res) => getAllItems(res, "book");
 
-const updateBook = async (req, res) => {
-  try {
-    const bookId = req.params.id;
-    const validId = await Book.findByPk(bookId);
-    const book = await Book.update(req.body, { where: { id: bookId } });
+//refactor of get book by id
 
-    if (!validId) {
-      res.status(404).json({ error: "The book could not be found" });
-    }
+const getBookById = (req,res) => getItemById(res, "book", req.params.id);
 
-    res.status(200).json(book);
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-};
+//refactor of update book
 
-const deleteBook = async (req, res) => {
-  try {
-    const bookId = req.params.id;
-    const validId = await Book.findByPk(bookId);
-    const deletedBook = await Book.destroy({ where: { id: bookId } });
+const updateBook = (req,res) => updateItem(res, "book", req.body, req.params.id);
 
-    if (!validId) {
-      res.status(404).json({ error: "The book could not be found" });
-    }
+//refactor of delete book
 
-    res.status(200).json(deletedBook);
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-};
+const deleteBook = (req,res) => deleteItem(res, "book", req.params.id);
 
-module.exports = { create, books, bookById, updateBook, deleteBook };
+
+module.exports = {  deleteBook, createBook, getBooks, getBookById, updateBook };

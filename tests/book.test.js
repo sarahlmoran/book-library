@@ -24,7 +24,7 @@ describe("/books", () => {
           raw: true,
         });
 
-        expect(response.status).to.equal(200);
+        expect(response.status).to.equal(201);
         expect(response.body.title).to.equal("The Hobbit");
         expect(newBookRecord.title).to.equal("The Hobbit");
         expect(newBookRecord.author).to.equal("J.R.R Tolkien");
@@ -94,7 +94,7 @@ describe("/books", () => {
         const response = await request(app).get("/books/222222");
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The book could not be found");
+        expect(response.body.error).to.equal("The book could not be found.");
       });
     });
 
@@ -118,7 +118,7 @@ describe("/books", () => {
           .send({ genre: "black noir" });
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The book could not be found");
+        expect(response.body.error).to.equal("The book could not be found.");
       });
     });
 
@@ -128,14 +128,14 @@ describe("/books", () => {
         const response = await request(app).delete(`/books/${book.id}`);
         const deletedBook = await Book.findByPk(book.id, { raw: true });
 
-        expect(response.status).to.equal(200);
+        expect(response.status).to.equal(204);
         expect(deletedBook).to.equal(null);
       });
 
       it("returns a 404 if the reader does not exist", async () => {
         const response = await request(app).delete("/books/222222");
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The book could not be found");
+        expect(response.body.error).to.equal("The book could not be found.");
       });
     });
   });
