@@ -34,6 +34,42 @@ const createItem = async (res, model, item) => {
 
 };
 
+const getItemById = async (res, model, id) => {
+    const Model = getModel(model);
+
+    const item = await Model.findByPk(id, {...options});
+
+    if(!item){
+        res.status(404).json(get404Error(model));
+    }else {
+        res.status(200).json(item);
+    }
+}
+
+const updateItem = async (res, model, item, id) => {
+    const Model = getModel(model);
+
+    const [ itemsUpdated ]= await Model.update(item, { where: {id}});
+
+    if(!itemsUpdated){
+        res.status(404).json(get404Error(model));
+    } else {
+        const updatedItem = await Model.findByPk(id);
+        res.status(200).json(updatedItem);
+    } 
+};
+
+const deleteItem = async (res, model, id) => {
+    const Model = getModel(model);
+
+    const item = await Model.destroy({where: {id}});
+
+    if(!item){
+        res.status(404).json(get404Error(model));
+    } else {
+        res.status(204).send();
+    }
+}
 
 
-module.exports = { getAllItems, createItem};
+module.exports = { getAllItems, createItem, getItemById, updateItem, deleteItem};
