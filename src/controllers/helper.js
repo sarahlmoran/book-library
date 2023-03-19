@@ -12,12 +12,24 @@ const getModel = (model) => {
   return models[model];
 };
 
+const removePassword = (obj) => {
+  if (obj.hasOwnProperty("password")) {
+    delete obj.password;
+  }
+
+  return obj;
+};
+
 const getAllItems = async (res, model) => {
   const Model = getModel(model);
 
   const items = await Model.findAll({ ...options });
 
-  res.status(200).json(items);
+  const itemsWithoutPassword = items.map((item) => {
+    return removePassword(item.dataValues);
+  });
+
+  res.status(200).json(itemsWithoutPassword);
 };
 
 const createItem = async (res, model, item) => {
@@ -25,8 +37,9 @@ const createItem = async (res, model, item) => {
 
   try {
     const newItem = await Model.create(item);
+    const itemWithoutPassword = removePassword(newItem.dataValues);
 
-    res.status(201).json(newItem);
+    res.status(201).json(itemWithoutPassword);
   } catch (error) {
     const errorMessages = error.errors?.map((e) => e.message);
 
@@ -42,6 +55,7 @@ const getItemById = async (res, model, id) => {
   if (!item) {
     res.status(404).json(get404Error(model));
   } else {
+    const itemWithoutPassword = removePassword(item.dataValues);
     res.status(200).json(item);
   }
 };
@@ -55,7 +69,8 @@ const updateItem = async (res, model, item, id) => {
     res.status(404).json(get404Error(model));
   } else {
     const updatedItem = await Model.findByPk(id);
-    res.status(200).json(updatedItem);
+    const itemWithoutPassword = removePassword(updatedItem.dataValues);
+    res.status(200).json(itemWithoutPassword);
   }
 };
 
