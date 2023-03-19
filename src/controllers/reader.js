@@ -28,9 +28,8 @@ const updateReader = (req, res) =>
 
 const deleteReader = (req, res) => deleteItem(res, "reader", req.params.id);
 
-
 module.exports = {
-   getReaders,
+  getReaders,
   createReader,
   getReaderById,
   updateReader,

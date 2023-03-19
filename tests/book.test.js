@@ -33,7 +33,7 @@ describe("/books", () => {
       });
 
       it("cannot create a book if there is no author or title entered", async () => {
-        const response = await request(app).post('/books').send({});
+        const response = await request(app).post("/books").send({});
         const newBookRecord = await Book.findByPk(response.body.id, {
           raw: true,
         });
